@@ -18,17 +18,18 @@
   </style>
 </head>
 <body>
-  <button id="startAudio">Start Audio</button>
-  <label style="position:absolute; top:60px; left:20px; z-index:10;">
-    <input type="checkbox" id="toggleParticles" checked />
-    Show Particles
-  </label>
+  <div style="position:absolute; top:0; left:0; z-index:10; width: 200px; height: 200px; background-color: aliceblue;">    
+    <button id="startAudio">Start Audio</button>
+    <label style="position:absolute; top:60px; left:20px; z-index:10;">
+      <input type="checkbox" id="toggleParticles" checked />
+      Show Particles
+    </label>
 
-  <label style="position:absolute; top:90px; left:20px; z-index:10;">
-    <input type="checkbox" id="toggleBars" checked />
-    Show Bars
-  </label>
-
+    <label style="position:absolute; top:90px; left:20px; z-index:10;">
+      <input type="checkbox" id="toggleBars" checked />
+      Show Bars
+    </label>
+  </div>
 
   <script type="importmap">
   {
@@ -147,14 +148,18 @@
     // Audio setup
     let analyser, dataArray;
     let currentScale = 1;
+    let audioCtx, audio, source;
+    let isAudioInitialized = false;
 
     function setupAudio() {
-      const audio = new Audio('Inova - The Vibe (Original Mix).mp3');
-      audio.crossOrigin = "anonymous";
-      audio.loop = true;
+      if (isAudioInitialized) return; // Prevent stacking
 
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaElementSource(audio);
+      audio = new Audio('Inova - The Vibe (Original Mix).mp3');
+      audio.crossOrigin = "anonymous";
+      audio.loop = false;
+
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      source = audioCtx.createMediaElementSource(audio);
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 512;
       dataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -164,12 +169,14 @@
 
       audioCtx.resume().then(() => {
         audio.play();
+        isAudioInitialized = true;
       });
     }
 
+
     document.getElementById('startAudio').addEventListener('click', () => {
       setupAudio();
-      document.getElementById('startAudio').style.display = 'none';
+      //document.getElementById('startAudio').style.display = 'none';
     });
 
     function getBassLevel(dataArray) {
@@ -196,6 +203,21 @@
         const targetScale = 1 + bass / 200;
         currentScale = targetScale / 2;
         ducky.scale.set(currentScale, currentScale, currentScale);
+
+        //BG
+        // Focus on bass: lower 32 bins
+        const bassBins = dataArray.slice(0, 32);
+        const bassAvg = bassBins.reduce((a, b) => a + b, 0) / bassBins.length;
+
+        // Map bassAvg (0–255) to hue (0–360)
+        const hue = Math.floor((bassAvg / 255) * 360);
+        const saturation = 70;
+        const lightness = 50;
+
+        // Apply background color
+        // Convert HSL to RGB
+        const color = new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+        scene.background = color;
 
         // Visualizer bars
         if (toggleBars.checked) {
