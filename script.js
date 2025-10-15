@@ -123,8 +123,7 @@ let currentScale = 1;
 
 function animate() {
   requestAnimationFrame(animate);
-
-  if (audioManager.analyser && audioManager.dataArray) {
+  if (audioManager.isInitialized) {
     audioManager.update();
     const bass = audioManager.getBassLevel();
     const midHigh = audioManager.getMidHighLevel();
@@ -216,11 +215,10 @@ function animate() {
 
     particles.geometry.attributes.position.needsUpdate = true;
     particles.material.opacity = 0.8; // base opacity
-
+  }
     ducky.rotation.y += 0.01;
     visualizerGroup.rotation.y += 0.005;
     renderer.render(scene, camera);
-  }
 }
 animate();
 
