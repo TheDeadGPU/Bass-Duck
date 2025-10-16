@@ -7,26 +7,32 @@
 </head>
 <body class="m-0 overflow-hidden">
   <!-- Control Panel -->
-  <div class="absolute top-0 left-0 z-10 w-52 h-52 bg-[aliceblue] p-4 flex flex-col gap-3 rounded-br-lg">
+  <div class="absolute top-0 left-0 z-10 w-52 h-62 bg-[aliceblue] p-4 flex flex-col gap-3 rounded-br-lg">
     <!-- Title -->
     <h2 class="text-lg font-bold text-center">Control Panel</h2>
     
     <!-- Toggle Particles -->
     <label class="flex items-center gap-2 text-sm">
-      <input type="checkbox" id="toggleParticles" checked class="accent-blue-500" />
+      <input type="checkbox" id="toggleParticles" class="accent-blue-500" />
       Show Particles
     </label>
 
     <!-- Toggle Bars -->
     <label class="flex items-center gap-2 text-sm">
-      <input type="checkbox" id="toggleBars" checked class="accent-blue-500" />
+      <input type="checkbox" id="toggleBars" class="accent-blue-500" />
       Show Bars
     </label>
 
     <!-- Toggle Visualizer -->
     <label class="flex items-center gap-2 text-sm">
-      <input type="checkbox" id="toggleVisualizer" checked class="accent-blue-500" />
+      <input type="checkbox" id="toggleVisualizer" class="accent-blue-500" />
       Show Visualizer
+    </label>
+
+    <!-- Toggle FPS -->
+    <label class="flex items-center gap-2 text-sm">
+      <input type="checkbox" id="toggleFPS" class="accent-blue-500" />
+      Show FPS
     </label>
 
     <button id="playDemo" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition">

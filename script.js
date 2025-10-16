@@ -1,5 +1,11 @@
 import * as THREE from "three";
 import * as audio from "./audio.js";
+import Stats from "./Stats.js";
+
+//FPS Setup
+var stats = new Stats();
+stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 // Audio setup
 const audioManager = audio.AudioManager.getInstance("audioSource");
@@ -123,6 +129,7 @@ let currentScale = 1;
 
 function animate() {
   requestAnimationFrame(animate);
+  stats.begin();
   if (audioManager.isInitialized) {
     audioManager.update();
     const bass = audioManager.getBassLevel();
@@ -219,6 +226,7 @@ function animate() {
     ducky.rotation.y += 0.01;
     visualizerGroup.rotation.y += 0.005;
     renderer.render(scene, camera);
+    stats.end();
 }
 animate();
 
