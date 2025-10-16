@@ -57,7 +57,7 @@ beak.position.set(0, 1, 1.1);
 beak.castShadow = true;
 ducky.add(beak);
 
-const eyeGeo = new THREE.SphereGeometry(0.05, 16, 16);
+const eyeGeo = new THREE.SphereGeometry(0.05, 64, 64);
 const leftEye = new THREE.Mesh(eyeGeo, black);
 const rightEye = new THREE.Mesh(eyeGeo, black);
 leftEye.position.set(-0.5, 1.2, 0.7);
@@ -136,7 +136,7 @@ function animate() {
     const midHigh = audioManager.getMidHighLevel();
 
     const targetScale = 1 + bass / 200;
-    currentScale = targetScale / 2;
+    currentScale = targetScale;
     ducky.scale.set(currentScale, currentScale, currentScale);
 
     //BG
