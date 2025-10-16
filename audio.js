@@ -1,6 +1,18 @@
-// audio.js
 export class AudioManager {
+  static instance = null;
+
+  static getInstance(audioElementId) {
+    if (!AudioManager.instance) {
+      AudioManager.instance = new AudioManager(audioElementId);
+    }
+    return AudioManager.instance;
+  }
+
   constructor(audioElementId) {
+    if (AudioManager.instance) {
+      return AudioManager.instance;
+    }
+
     this.audioElement = document.getElementById(audioElementId);
     this.audioCtx = null;
     this.analyser = null;
@@ -8,6 +20,8 @@ export class AudioManager {
     this.isInitialized = false;
 
     this.audioElement.addEventListener("play", () => this.setup());
+
+    AudioManager.instance = this;
   }
 
   setup() {

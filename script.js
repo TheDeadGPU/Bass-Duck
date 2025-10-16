@@ -2,7 +2,7 @@ import * as THREE from "three";
 import * as audio from "./audio.js";
 
 // Audio setup
-const audioManager = new audio.AudioManager("audioSource");
+const audioManager = audio.AudioManager.getInstance("audioSource");
 
 const toggleParticles = document.getElementById("toggleParticles");
 const toggleBars = document.getElementById("toggleBars");
