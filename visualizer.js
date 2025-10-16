@@ -5,27 +5,26 @@ const toggleVisualizer = document.getElementById("toggleVisualizer");
 
 // Create canvas and style it
 const canvas = document.createElement('canvas');
-canvas.width = 200;
+canvas.width = 400;
 canvas.height = 200;
 canvas.style.position = 'absolute';
 canvas.style.bottom = '0px';
 canvas.style.right = '0px';
 canvas.style.zIndex = '10';
 
-//canvas.className = 'absolute bottom-0 right-0 z-10';
+// Append canvas to body
 document.body.appendChild(canvas);
-
 const ctx = canvas.getContext('2d');
 
 
-
+// Animation loop
 function animate() {
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if(audioManager.isInitialized && toggleVisualizer.checked)
   {
     // Bar visualizer settings
-    const bassBins = audioManager.dataArray.slice(0, 32);
+    const bassBins = audioManager.dataArray;//.slice(0, 32);
     const barWidth = canvas.width / bassBins.length;
     
     //Draw Bars
