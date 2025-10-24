@@ -2,7 +2,6 @@ import * as THREE from "three";
 import * as audio from "./audio.js";
 import Stats from "./Stats.js";
 import { Ducky } from "./ducky.js";
-import { loadGif } from "./GLGif.js";
 
 //FPS Setup
 var stats = new Stats();
@@ -16,7 +15,7 @@ const audioManager = audio.AudioManager.getInstance("audioSource");
 const toggleParticles = document.getElementById("toggleParticles");
 const toggleBars = document.getElementById("toggleBars");
 
-// Three.js setup
+// Three.js scene setup
 const scene = new THREE.Scene();
 
 //Camera Setup
