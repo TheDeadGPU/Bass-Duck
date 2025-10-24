@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import * as audio from "./audio.js";
 import Stats from "./Stats.js";
+import { Ducky } from "./ducky.js";
+import { loadGif } from "./GLGif.js";
 
 //FPS Setup
 var stats = new Stats();
@@ -10,17 +12,23 @@ document.body.appendChild( stats.dom );
 // Audio setup
 const audioManager = audio.AudioManager.getInstance("audioSource");
 
+// UI Elements
 const toggleParticles = document.getElementById("toggleParticles");
 const toggleBars = document.getElementById("toggleBars");
 
+// Three.js setup
 const scene = new THREE.Scene();
 
+//Camera Setup
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
+camera.position.z = 5;
+
+// Renderer Setup
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
@@ -33,38 +41,9 @@ directionalLight.position.set(-5, 10, 5);
 directionalLight.castShadow = true;
 scene.add(directionalLight);
 
-// Materials
-const yellow = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-const orange = new THREE.MeshStandardMaterial({ color: 0xffa500 });
-const black = new THREE.MeshStandardMaterial({ color: 0x000000 });
-
-// Ducky group
-const ducky = new THREE.Group();
+// Ducky Setup
+const ducky = new Ducky(0,0,0);
 scene.add(ducky);
-
-const body = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), yellow);
-body.castShadow = true;
-ducky.add(body);
-
-const head = new THREE.Mesh(new THREE.SphereGeometry(0.6, 32, 32), yellow);
-head.position.set(0, 1, 0.5);
-head.castShadow = true;
-ducky.add(head);
-
-const beak = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.4, 32), orange);
-beak.rotation.x = Math.PI / 2;
-beak.position.set(0, 1, 1.1);
-beak.castShadow = true;
-ducky.add(beak);
-
-const eyeGeo = new THREE.SphereGeometry(0.05, 64, 64);
-const leftEye = new THREE.Mesh(eyeGeo, black);
-const rightEye = new THREE.Mesh(eyeGeo, black);
-leftEye.position.set(-0.5, 1.2, 0.7);
-rightEye.position.set(0.5, 1.2, 0.7);
-ducky.add(leftEye, rightEye);
-
-camera.position.z = 5;
 
 // Bass visualizer bars
 const visualizerGroup = new THREE.Group();
@@ -138,7 +117,7 @@ function animate() {
     const targetScale = 1 + bass / 200;
     currentScale = targetScale;
     ducky.scale.set(currentScale, currentScale, currentScale);
-
+    
     //BG
     // Focus on bass: lower 32 bins
     const bassBins = audioManager.dataArray.slice(0, 32);
@@ -153,6 +132,8 @@ function animate() {
     // Convert HSL to RGB
     const color = new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
     scene.background = color;
+
+
 
     // Visualizer bars
     if (toggleBars.checked) {
@@ -223,7 +204,7 @@ function animate() {
     particles.geometry.attributes.position.needsUpdate = true;
     particles.material.opacity = 0.8; // base opacity
   }
-    ducky.rotation.y += 0.01;
+    ducky.update(true);
     visualizerGroup.rotation.y += 0.005;
     renderer.render(scene, camera);
     stats.end();
