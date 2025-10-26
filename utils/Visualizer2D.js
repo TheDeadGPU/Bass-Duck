@@ -1,4 +1,4 @@
-import { AudioManager } from './audio.js';
+import { AudioManager } from "./audio.js";
 
 const audioManager = AudioManager.getInstance('audioSource');
 const toggleVisualizer = document.getElementById("toggleVisualizer");
