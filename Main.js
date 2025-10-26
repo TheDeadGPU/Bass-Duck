@@ -55,7 +55,7 @@ const barCircle = new VisualBarsCircle(0,0,-2);
 scene.add(barCircle);
 
 // Particle system with trails
-const particles = new ParticleSystem(0, 0, 0);
+const particles = new ParticleSystem(0, 0, -2, 150, 60);
 scene.add(particles);
 
 //Audio Setup
