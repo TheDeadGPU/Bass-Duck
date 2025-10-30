@@ -1,10 +1,11 @@
 import * as THREE from "three";
 
 export class Ducky extends THREE.Group {
-  constructor(x = 0, y = 0, z = 0) {
+  constructor(x = 0, y = 0, z = 0, isBackgroundDuck = false) {
     super();
     this.position.set(x, y, z);
     this._initParts();
+    this.isBackgroundDuck = isBackgroundDuck;
   }
 
   _initParts() {
@@ -42,5 +43,8 @@ export class Ducky extends THREE.Group {
   update(rotateClockwise = true) {
     const rotationSpeed = 0.01;
     this.rotation.y += rotateClockwise ? rotationSpeed : -rotationSpeed;
+    if(this.isBackgroundDuck){
+      this.visible = document.getElementById("toggleDancers").checked;
+    }
   }
 }

@@ -46,6 +46,12 @@ scene.add(directionalLight);
 const ducky = new Ducky(0,0,-2);
 scene.add(ducky);
 
+const ducky2 = new Ducky(4,0,-6,true);
+scene.add(ducky2);
+
+const ducky3 = new Ducky(-4,0,-6,true);
+scene.add(ducky3);
+
 //Visualizer Bar Setup
 const bars = new VisualBars(0,0,2);
 scene.add(bars);
@@ -72,7 +78,9 @@ function animate() {
     const targetScale = 1 + bass / 200;
     currentScale = targetScale;
     ducky.scale.set(currentScale, currentScale, currentScale);
-    
+    ducky2.scale.set(currentScale, currentScale, currentScale);
+    ducky3.scale.set(currentScale, currentScale, currentScale);
+
     //BG
     // Focus on bass: lower 32 bins
     const bassBins = audioManager.dataArray.slice(0, 32);
@@ -91,6 +99,8 @@ function animate() {
     particles.animate();
   }
     ducky.update(true);
+    ducky2.update(true);
+    ducky3.update(true);
     bars.animate();
     barCircle.animate();
     renderer.render(scene, camera);
