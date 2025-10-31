@@ -18,6 +18,7 @@ uniform vec3 emissive;
 uniform float roughness;
 uniform float metalness;
 uniform float opacity;
+uniform float u_brightness;
 
 uniform vec3 ambientLightColor;
 uniform vec3 directionalLightColor[1];
@@ -50,7 +51,10 @@ void main() {
     
     // Final color
     vec3 outgoingLight = diffuse * (ambient + totalDiffuse) + totalSpecular + emissive;
-    
+
+    // Apply brightness/exposure control
+    outgoingLight *= u_brightness;
+
     gl_FragColor = vec4(outgoingLight, opacity);
 }
 `;
@@ -63,7 +67,8 @@ export function createSmoothMaterial(color, options = {}) {
             emissive: { value: new THREE.Color(0x000000) },
             roughness: { value: options.roughness || 0.5 },
             metalness: { value: options.metalness || 0.0 },
-            opacity: { value: options.opacity || 1.0 }
+            opacity: { value: options.opacity || 1.0 },
+            u_brightness: { value: options.brightness !== undefined ? options.brightness : 2.0 }
         }
     ]);
 
