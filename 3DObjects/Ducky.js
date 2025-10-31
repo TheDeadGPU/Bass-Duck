@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { createSmoothMaterial } from "../shaders/SmoothShader.js";
 
 export class Ducky extends THREE.Group {
   constructor(x = 0, y = 0, z = 0, isBackgroundDuck = false) {
@@ -9,9 +10,9 @@ export class Ducky extends THREE.Group {
   }
 
   _initParts() {
-    const yellow = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-    const orange = new THREE.MeshStandardMaterial({ color: 0xffa500 });
-    const black = new THREE.MeshStandardMaterial({ color: 0x000000 });
+    const yellow = createSmoothMaterial(0xffff00, { roughness: 0.3 });
+    const orange = createSmoothMaterial(0xffa500, { roughness: 0.4 });
+    const black = createSmoothMaterial(0x000000, { roughness: 0.2 });
 
     // Body
     const body = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), yellow);
