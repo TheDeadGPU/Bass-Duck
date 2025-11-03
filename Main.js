@@ -8,14 +8,16 @@ import { ParticleSystem } from "./3DObjects/ParticleSystem.js";
 
 //FPS Setup
 var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 
 // Audio setup
 const audioManager = AudioManager.getInstance("audioSource");
 
 // UI Elements
 const toggleParticles = document.getElementById("toggleParticles");
+const toggleBGSync = document.getElementById("toggleBGSync");
+const colorPicker = document.getElementById("colorPicker");
 
 // Three.js scene setup
 const scene = new THREE.Scene();
@@ -43,21 +45,21 @@ directionalLight.castShadow = true;
 scene.add(directionalLight);
 
 // Ducky Setup
-const ducky = new Ducky(0,0,-2);
+const ducky = new Ducky(0, 0, -2);
 scene.add(ducky);
 
-const ducky2 = new Ducky(4,0,-6,true);
+const ducky2 = new Ducky(4, 0, -6, true);
 scene.add(ducky2);
 
-const ducky3 = new Ducky(-4,0,-6,true);
+const ducky3 = new Ducky(-4, 0, -6, true);
 scene.add(ducky3);
 
 //Visualizer Bar Setup
-const bars = new VisualBars(0,0,2);
+const bars = new VisualBars(0, 0, 2);
 scene.add(bars);
 
 //Visualizer Bar Circle Setup
-const barCircle = new VisualBarsCircle(0,0,-2);
+const barCircle = new VisualBarsCircle(0, 0, -2);
 scene.add(barCircle);
 
 // Particle system with trails
@@ -81,30 +83,35 @@ function animate() {
     ducky2.scale.set(currentScale, currentScale, currentScale);
     ducky3.scale.set(currentScale, currentScale, currentScale);
 
-    //BG
     // Focus on bass: lower 32 bins
     const bassBins = audioManager.dataArray.slice(0, 32);
     const bassAvg = bassBins.reduce((a, b) => a + b, 0) / bassBins.length;
 
-    // Map bassAvg (0–255) to hue (0–360)
-    const hue = Math.floor((bassAvg / 255) * 360);
-    const saturation = 70;
-    const lightness = 50;
-
     // Apply background color
-    // Convert HSL to RGB
-    const color = new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
-    scene.background = color;
+    if (toggleBGSync.checked) {
+      // Map bassAvg (0–255) to hue (0–360)
+      const hue = Math.floor((bassAvg / 255) * 360);
+      const saturation = 70;
+      const lightness = 50;
 
+      // Convert HSL to RGB
+      const color = new THREE.Color(`hsl(${hue}, ${saturation}%, ${lightness}%)`);
+      scene.background = color;
+    }
+    
     particles.animate();
   }
-    ducky.update(true);
-    ducky2.update(true);
-    ducky3.update(true);
-    bars.animate();
-    barCircle.animate();
-    renderer.render(scene, camera);
-    stats.end();
+  if(!toggleBGSync.checked){
+    const pickedColor = new THREE.Color(colorPicker.value);
+    scene.background = pickedColor;
+  }
+  ducky.update(true);
+  ducky2.update(true);
+  ducky3.update(true);
+  bars.animate();
+  barCircle.animate();
+  renderer.render(scene, camera);
+  stats.end();
 }
 animate();
 

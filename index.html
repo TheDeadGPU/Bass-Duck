@@ -16,6 +16,7 @@
 <body class="m-0 overflow-hidden">
   <!-- Control Panel -->
   <div class="absolute top-0 left-0 z-10 w-52 h-62 bg-[aliceblue] p-4 flex flex-col gap-3 rounded-br-lg">
+
     <!-- Title -->
     <h2 class="text-lg font-bold text-center">Control Panel</h2>
     
@@ -31,18 +32,31 @@
       Show Bars
     </label>
 
-    <!-- Toggle Bars -->
+    <!-- Toggle Bar Circle -->
     <label class="flex items-center gap-2 text-sm">
       <input type="checkbox" id="toggleBarCircle" class="accent-blue-500" />
       Show Bar Circle
     </label>
 
-    <!-- Toggle Bars -->
+    <!-- Toggle Dancers -->
     <label class="flex items-center gap-2 text-sm">
       <input type="checkbox" id="toggleDancers" class="accent-blue-500" />
       Show Dancers
     </label>
 
+    <!-- Toggle Background Color Sync -->
+    <label class="flex items-center gap-2 text-sm">
+      <input type="checkbox" id="toggleBGSync" class="accent-blue-500" />
+      Sync Background Color to Music
+    </label>
+
+    <!-- Background Color Picker -->
+    <form>
+      <label for="colorPicker">Background Color:</label>
+      <input type="color" id="colorPicker" name="colorPicker" value="#ff0000">
+    </form>
+
+    <!-- Demo Music Button -->
     <button id="playDemo" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 transition">
       Play Demo Music
     </button>
@@ -104,6 +118,5 @@
       audioPlayer.play();
     });
   </script>
-
 </body>
 </html>
