@@ -42,7 +42,9 @@ export class Ducky extends THREE.Group {
   }
 
   update(rotateClockwise = true) {
-    const rotationSpeed = 0.01;
+
+    //const rotationSpeed = 0.01;
+    const rotationSpeed = document.getElementById('rotationSpeed').value / 100;
     this.rotation.y += rotateClockwise ? rotationSpeed : -rotationSpeed;
     if(this.isBackgroundDuck){
       this.visible = document.getElementById("toggleDancers").checked;
